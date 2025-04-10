@@ -5,3 +5,5 @@ export type Normalize<T extends boolean> = [T] extends [never]
     : [T] extends [false]
       ? false
       : true;
+
+export type And<A extends boolean, B extends boolean> = Normalize<A & B>;
