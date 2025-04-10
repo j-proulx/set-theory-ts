@@ -70,47 +70,47 @@ describe('Member', () => {
 });
 
 describe('Union', () => {
-    it('handles disjoint sets', () => {
-      type A = [[], [[]]];
-      type B = [[[[]]]];
-      type Result = Union<A, B>;
-      type Expected = [[], [[]], [[[]]]];
-      expectTypeOf<Equal<Result, Expected>>().toEqualTypeOf<true>();
-    });
-  
-    it('does not duplicate shared elements', () => {
-      type A = [[], [[]]];
-      type B = [[]];
-      type Result = Union<A, B>;
-      type Expected = [[], [[]]];
-      expectTypeOf<Equal<Result, Expected>>().toEqualTypeOf<true>();
-    });
-  
-    it('returns A if B is empty', () => {
-      type A = [[], [[]], [[[]]]];
-      type Result = Union<A, []>;
-      expectTypeOf<Equal<Result, A>>().toEqualTypeOf<true>();
-    });
-  
-    it('returns B if A is empty', () => {
-      type B = [[], [[]], [[[]]]];
-      type Result = Union<[], B>;
-      expectTypeOf<Equal<Result, B>>().toEqualTypeOf<true>();
-    });
-  
-    it('handles nested duplicates correctly', () => {
-      type A = [[], [[]]];
-      type B = [[], [[]], [[]]];
-      type Result = Union<A, B>;
-      type Expected = [[], [[]]];
-      expectTypeOf<Equal<Result, Expected>>().toEqualTypeOf<true>();
-    });
-  
-    it('respects insertion order of A followed by missing from B', () => {
-      type A = [[[]], []];
-      type B = [[[[]]]];
-      type Result = Union<A, B>;
-      type Expected = [[[]], [], [[[]]]];
-      expectTypeOf<Equal<Result, Expected>>().toEqualTypeOf<true>();
-    });
+  it('handles disjoint sets', () => {
+    type A = [[], [[]]];
+    type B = [[[[]]]];
+    type Result = Union<A, B>;
+    type Expected = [[], [[]], [[[]]]];
+    expectTypeOf<Equal<Result, Expected>>().toEqualTypeOf<true>();
   });
+
+  it('does not duplicate shared elements', () => {
+    type A = [[], [[]]];
+    type B = [[]];
+    type Result = Union<A, B>;
+    type Expected = [[], [[]]];
+    expectTypeOf<Equal<Result, Expected>>().toEqualTypeOf<true>();
+  });
+
+  it('returns A if B is empty', () => {
+    type A = [[], [[]], [[[]]]];
+    type Result = Union<A, []>;
+    expectTypeOf<Equal<Result, A>>().toEqualTypeOf<true>();
+  });
+
+  it('returns B if A is empty', () => {
+    type B = [[], [[]], [[[]]]];
+    type Result = Union<[], B>;
+    expectTypeOf<Equal<Result, B>>().toEqualTypeOf<true>();
+  });
+
+  it('handles nested duplicates correctly', () => {
+    type A = [[], [[]]];
+    type B = [[], [[]], [[]]];
+    type Result = Union<A, B>;
+    type Expected = [[], [[]]];
+    expectTypeOf<Equal<Result, Expected>>().toEqualTypeOf<true>();
+  });
+
+  it('respects insertion order of A followed by missing from B', () => {
+    type A = [[[]], []];
+    type B = [[[[]]]];
+    type Result = Union<A, B>;
+    type Expected = [[[]], [], [[[]]]];
+    expectTypeOf<Equal<Result, Expected>>().toEqualTypeOf<true>();
+  });
+});

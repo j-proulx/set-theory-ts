@@ -25,8 +25,11 @@ export type Equal<A extends SET, B extends SET> = And<
   Subset<B, A>
 >;
 
-export type Union<A extends SET, B extends SET> = A extends [infer Head extends SET, ...infer Tail extends SET]
-  ? Member<Head, B> extends true 
+export type Union<A extends SET, B extends SET> = A extends [
+  infer Head extends SET,
+  ...infer Tail extends SET,
+]
+  ? Member<Head, B> extends true
     ? Union<Tail, B>
     : [Head, ...Union<Tail, B>]
   : B;
