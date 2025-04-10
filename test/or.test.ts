@@ -1,6 +1,6 @@
 // test/or.test.ts
 import { describe, it, expectTypeOf } from 'vitest';
-import { Or } from '../src/normalize';
+import { IteratedOr, Or } from '../src/normalize';
 
 describe('Or<A, B>', () => {
   it('true | true = true', () => {
@@ -37,5 +37,29 @@ describe('Or<A, B>', () => {
 
   it('false | boolean = true', () => {
     expectTypeOf<Or<false, boolean>>().toEqualTypeOf<true>();
+  });
+});
+
+describe('IteratedOr', () => {
+  it('returns true if any value is true', () => {
+    expectTypeOf<IteratedOr<[false, true, false]>>().toEqualTypeOf<true>();
+    expectTypeOf<IteratedOr<[true, true]>>().toEqualTypeOf<true>();
+    expectTypeOf<IteratedOr<[false, false, false, true, false]>>().toEqualTypeOf<true>();
+    expectTypeOf<IteratedOr<[true, false, false, false, false, false, false]>>().toEqualTypeOf<true>();
+    expectTypeOf<IteratedOr<[false, false, false, false, true, true, false, false, false]>>().toEqualTypeOf<true>();
+  });
+
+  it('returns false for all-false input', () => {
+    expectTypeOf<IteratedOr<[false, false, false]>>().toEqualTypeOf<false>();
+    expectTypeOf<IteratedOr<[false, false, false, false, false, false, false, false]>>().toEqualTypeOf<false>();
+  });
+
+  it('returns false for empty input (identity)', () => {
+    expectTypeOf<IteratedOr<[]>>().toEqualTypeOf<false>();
+  });
+
+  it('returns same as single element', () => {
+    expectTypeOf<IteratedOr<[true]>>().toEqualTypeOf<true>();
+    expectTypeOf<IteratedOr<[false]>>().toEqualTypeOf<false>();
   });
 });

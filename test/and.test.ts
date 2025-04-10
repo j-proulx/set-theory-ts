@@ -1,5 +1,5 @@
 import { describe, it, expectTypeOf } from 'vitest';
-import { And } from '../src/normalize';
+import { And, IteratedAnd } from '../src/normalize';
 
 describe('And<A, B>', () => {
   it('true & true = true', () => {
@@ -36,5 +36,29 @@ describe('And<A, B>', () => {
 
   it('false & boolean = false', () => {
     expectTypeOf<And<false, boolean>>().toEqualTypeOf<false>();
+  });
+});
+
+describe('IteratedAnd', () => {
+  it('returns true for all-true input', () => {
+    expectTypeOf<IteratedAnd<[true, true, true]>>().toEqualTypeOf<true>();
+    expectTypeOf<IteratedAnd<[true, true, true, true, true]>>().toEqualTypeOf<true>();
+    expectTypeOf<IteratedAnd<[true, true, true, true, true, true, true, true, true, true]>>().toEqualTypeOf<true>();
+  });
+
+  it('returns false if any value is false', () => {
+    expectTypeOf<IteratedAnd<[true, false, true]>>().toEqualTypeOf<false>();
+    expectTypeOf<IteratedAnd<[true, true, true, false, true]>>().toEqualTypeOf<false>();
+    expectTypeOf<IteratedAnd<[true, true, true, true, false, true, true]>>().toEqualTypeOf<false>();
+    expectTypeOf<IteratedAnd<[false, false, false, false, false]>>().toEqualTypeOf<false>();
+  });
+
+  it('returns true for empty input (identity)', () => {
+    expectTypeOf<IteratedAnd<[]>>().toEqualTypeOf<true>();
+  });
+
+  it('returns same as single element', () => {
+    expectTypeOf<IteratedAnd<[true]>>().toEqualTypeOf<true>();
+    expectTypeOf<IteratedAnd<[false]>>().toEqualTypeOf<false>();
   });
 });
