@@ -42,5 +42,11 @@ export type Recursive<
   Operands extends boolean[],
 > = Reduce<Op, Op['identity'], Operands>;
 
-export type IteratedAnd<Operands extends boolean[]> = Recursive<AndMeta, Operands>;
-export type IteratedOr<Operands extends boolean[]> = Recursive<OrMeta, Operands>;
+export type IteratedAnd<Operands extends boolean[]> = Recursive<
+  AndMeta,
+  Operands
+>;
+export type IteratedOr<Operands extends boolean[]> = Recursive<
+  OrMeta,
+  Operands
+>;

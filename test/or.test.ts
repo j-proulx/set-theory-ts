@@ -44,14 +44,22 @@ describe('IteratedOr', () => {
   it('returns true if any value is true', () => {
     expectTypeOf<IteratedOr<[false, true, false]>>().toEqualTypeOf<true>();
     expectTypeOf<IteratedOr<[true, true]>>().toEqualTypeOf<true>();
-    expectTypeOf<IteratedOr<[false, false, false, true, false]>>().toEqualTypeOf<true>();
-    expectTypeOf<IteratedOr<[true, false, false, false, false, false, false]>>().toEqualTypeOf<true>();
-    expectTypeOf<IteratedOr<[false, false, false, false, true, true, false, false, false]>>().toEqualTypeOf<true>();
+    expectTypeOf<
+      IteratedOr<[false, false, false, true, false]>
+    >().toEqualTypeOf<true>();
+    expectTypeOf<
+      IteratedOr<[true, false, false, false, false, false, false]>
+    >().toEqualTypeOf<true>();
+    expectTypeOf<
+      IteratedOr<[false, false, false, false, true, true, false, false, false]>
+    >().toEqualTypeOf<true>();
   });
 
   it('returns false for all-false input', () => {
     expectTypeOf<IteratedOr<[false, false, false]>>().toEqualTypeOf<false>();
-    expectTypeOf<IteratedOr<[false, false, false, false, false, false, false, false]>>().toEqualTypeOf<false>();
+    expectTypeOf<
+      IteratedOr<[false, false, false, false, false, false, false, false]>
+    >().toEqualTypeOf<false>();
   });
 
   it('returns false for empty input (identity)', () => {
