@@ -1,0 +1,1 @@
+type SET = [] | SET[];
