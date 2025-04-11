@@ -6,7 +6,6 @@ import { Equal } from '../src';
 describe('Add', () => {
   it('adds zero correctly', () => {
     type ZeroPlusZero = Add<Zero, Zero>;
-    type Two = Natural<2>;
     expectTypeOf<Equal<ZeroPlusZero, Zero>>().toEqualTypeOf<true>();
 
     type One = Natural<1>;
