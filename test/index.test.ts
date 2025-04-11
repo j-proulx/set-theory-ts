@@ -113,4 +113,43 @@ describe('Union', () => {
     type Expected = [[[]], [], [[[]]]];
     expectTypeOf<Equal<Result, Expected>>().toEqualTypeOf<true>();
   });
+
+  it('treats structurally equivalent but differently written sets as equal', () => {
+    type A = [[[[]]], []];
+    type B = [[[[]]]];
+    type Result = Union<A, B>;
+    type Expected = [[[[]]], []]; // B's [[[]]] is already in A (deeply)
+    expectTypeOf<Equal<Result, Expected>>().toEqualTypeOf<true>();
+  });
+
+  it('self-union returns the same set', () => {
+    type A = [[], [[]], [[[]]]];
+    type Result = Union<A, A>;
+    expectTypeOf<Equal<Result, A>>().toEqualTypeOf<true>();
+  });
+
+  it('removes nested duplicates even if they come later in B', () => {
+    type A = [[], [[]]];
+    type B = [[[[]]], [[]], [[], [[]]]]; // contains deeply equal to A
+    type Result = Union<A, B>;
+    type Expected = [[], [[]], [[[]]], [[], [[]]]];
+    // or alternatively, [[], [[]], [[[]]], [[], [[]]]] depending on your equality logic
+    expectTypeOf<Equal<Result, Expected>>().toEqualTypeOf<true>();
+  });
+
+  it('treats empty sets inside sets as valid and equal', () => {
+    type A = [[[]]];
+    type B = [[[]], [[]]];
+    type Result = Union<A, B>;
+    type Expected = [[[]], [[]]];
+    expectTypeOf<Equal<Result, Expected>>().toEqualTypeOf<true>();
+  });
+
+  it('preserves A order and appends only new from B', () => {
+    type A = [[[[]]], [[]]];
+    type B = [[], [[]], [[[]]], [[[[]]]]];
+    type Result = Union<A, B>;
+    type Expected = [[[[]]], [[]], [], [[[]]], [[[[]]]]];
+    expectTypeOf<Equal<Result, Expected>>().toEqualTypeOf<true>();
+  });
 });
